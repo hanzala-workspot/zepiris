@@ -107,9 +107,13 @@ TorchVision
 
 InsightFace
   Version range: >=0.7.3
-  License: MIT
+  License: MIT (source code only)
   URL: https://github.com/deepinsight/insightface
   Copyright (c) 2018-present InsightFace contributors
+
+  NOTE: Pre-trained model weights downloaded by this library are licensed for
+  non-commercial research purposes only. Commercial use requires a separate
+  license. Contact: recognition-oss-pack@insightface.ai
 
 ONNX Runtime
   Version range: >=1.17.0
