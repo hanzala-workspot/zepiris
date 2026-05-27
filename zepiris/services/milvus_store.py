@@ -13,7 +13,15 @@ from pymilvus import (
 
 
 def _milvus_str(value: str) -> str:
-    """Escape a string value for safe use inside a Milvus filter expression."""
+    """Escape a string value for safe use inside a Milvus filter expression.
+
+    Args:
+        value: Raw user-supplied string (e.g. face_id or tenant).
+
+    Returns:
+        String with backslashes and double-quotes escaped so it cannot
+        break out of a ``field == "..."`` filter expression.
+    """
     return value.replace("\\", "\\\\").replace('"', '\\"')
 
 
