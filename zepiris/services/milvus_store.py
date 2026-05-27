@@ -12,6 +12,11 @@ from pymilvus import (
 )
 
 
+def _milvus_str(value: str) -> str:
+    """Escape a string value for safe use inside a Milvus filter expression."""
+    return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
 @dataclass
 class VectorMatch:
     face_id: str
@@ -114,7 +119,7 @@ class MilvusFaceStore:
 
         expr: str | None = None
         if tenant:
-            expr = f'tenant == "{tenant}"'
+            expr = f'tenant == "{_milvus_str(tenant)}"'
 
         results = col.search(
             data=[embedding],
@@ -142,7 +147,7 @@ class MilvusFaceStore:
     def delete(self, face_id: str) -> None:
         """Delete a face record by ID."""
         col = self.ensure_collection()
-        expr = f'face_id == "{face_id}"'
+        expr = f'face_id == "{_milvus_str(face_id)}"'
         col.delete(expr)
         col.flush()
 
@@ -155,7 +160,7 @@ class MilvusFaceStore:
     def get_by_id(self, face_id: str) -> dict | None:
         """Retrieve a face record by ID."""
         col = self.ensure_collection()
-        expr = f'face_id == "{face_id}"'
+        expr = f'face_id == "{_milvus_str(face_id)}"'
         results = col.query(expr=expr, output_fields=["face_id", "tenant", "object_key"])
         if not results:
             return None
